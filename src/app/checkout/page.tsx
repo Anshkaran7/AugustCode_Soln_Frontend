@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -19,6 +19,7 @@ export default function Checkout() {
   const initialQuantity = searchParams.get('quantity');
 
   const [quantity, setQuantity] = useState(Number(initialQuantity) || 1);
+  const [isRazorpayReady, setIsRazorpayReady] = useState(false); // Track if Razorpay is ready
 
   // Generate a unique order ID
   const generateOrderId = () => {
@@ -39,8 +40,26 @@ export default function Checkout() {
   // Calculate the total price
   const totalPrice = (Number(salePrice || originalPrice) * quantity).toFixed(2);
 
+  // Load Razorpay SDK dynamically
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => {
+      setIsRazorpayReady(true); // Set state when Razorpay is ready
+    };
+    script.onerror = () => {
+      console.error('Failed to load Razorpay SDK');
+    };
+    document.body.appendChild(script);
+  }, []);
+
   // Razorpay Payment Integration
   const handleRazorpayPayment = async () => {
+    if (!isRazorpayReady) {
+      alert('Razorpay SDK is still loading. Please wait...');
+      return;
+    }
+
     const options = {
       key: 'rzp_test_EkdZaedpnLu4rz', // Enter your Razorpay key here
       amount: Number(totalPrice) * 100, // Razorpay amount is in paise (multiply by 100)
@@ -48,7 +67,7 @@ export default function Checkout() {
       name: 'Your Store',
       description: `Order ID: ${orderId}`, // Add the order ID here
       image: '/your-logo.png', // Your logo URL here
-      order_id: "", // Include the generated order ID in the options
+      order_id: orderId, // Include the generated order ID in the options
       handler: function (response: any) {
         alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
         alert(`Order ID: ${orderId}`); // Display the order ID
