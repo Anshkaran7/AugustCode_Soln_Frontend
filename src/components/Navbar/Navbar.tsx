@@ -157,7 +157,7 @@ const Navbar = () => {
               <FiHeart size={20} />
               <span className="text-xs">Wish Lists</span>
             </Link>
-            <Link href="/sign-in" className="flex flex-col items-center">
+            <Link href="/auth" className="flex flex-col items-center">
               <FiUser size={20} />
               <span className="text-xs">Sign In</span>
             </Link>
@@ -182,7 +182,7 @@ const Navbar = () => {
             </button>
             <Image src="/logo.png" alt="Logo" width={120} height={40} className="h-14 object-contain" />
             <div className="flex items-center space-x-4">
-              <Link href="/sign-in">
+              <Link href="/auth">
                 <FiUser size={24} />
               </Link>
               <Link href="/cart">

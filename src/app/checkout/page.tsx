@@ -67,7 +67,7 @@ export default function Checkout() {
       name: 'Your Store',
       description: `Order ID: ${orderId}`, // Add the order ID here
       image: '/your-logo.png', // Your logo URL here
-      order_id: orderId, // Include the generated order ID in the options
+      order_id: "", // Include the generated order ID in the options
       handler: function (response: any) {
         alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
         alert(`Order ID: ${orderId}`); // Display the order ID
@@ -98,7 +98,7 @@ export default function Checkout() {
               {/* Product Image */}
               <div className="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">
                 <Image
-                  src={`/products/${(name ? name.toLowerCase() : 'default')}.jpg`}
+                  src={`/products/speaker.jpg`}
                   alt="Product"
                   width={200}
                   height={200}

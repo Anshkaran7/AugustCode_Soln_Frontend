@@ -13,7 +13,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menuOpen, setMenuOpen }) => {
   const router = useRouter();
 
   const handleSignInClick = () => {
-    router.push('/sign-in');
+    router.push('/auth');
   };
 
   const handleWishlistClick = () => {

@@ -1,34 +1,27 @@
 "use client";
 
 import { useState } from 'react';
-import { FaPhone, FaSpinner } from 'react-icons/fa';
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
+import { FaEnvelope, FaLock, FaSpinner } from 'react-icons/fa';
 import { toast, Toaster } from 'sonner';
 
-export default function PhoneLoginPage() {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [otp, setOtp] = useState('');
-  const [isOtpSent, setIsOtpSent] = useState(false);
+export default function EmailLoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false); // Loading spinner state
 
-  console.log(otp)
-  const handleSendOtp = (e: React.FormEvent) => {
+  const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // Start spinner when sending OTP
-    setTimeout(() => {
-      setIsOtpSent(true);
-      setIsLoading(false); // Stop spinner
-      toast.success("OTP sent successfully!"); // Show toast notification
-    }, 2000); // Simulate OTP send delay
-  };
+    setIsLoading(true); // Start spinner when signing in
 
-  const handleVerifyOtp = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true); // Start spinner when verifying OTP
+    // Simulate sign-in process
     setTimeout(() => {
       setIsLoading(false); // Stop spinner
-      toast.success("OTP Verified Successfully!"); // Show success toast
-    }, 2000); // Simulate OTP verification delay
+      if (email === "nileshpatel5213@gmail.com" && password === "Gaurang$5213$") {
+        toast.success("Sign In Successful!"); // Show success toast
+      } else {
+        toast.error("Invalid email or password!"); // Show error toast
+      }
+    }, 2000); // Simulate sign-in delay
   };
 
   return (
@@ -39,83 +32,70 @@ export default function PhoneLoginPage() {
 
         <div className="text-center mb-6">
           <h2 className="text-3xl font-[family-name:var(--font-montserrat-bold)] text-gray-700 animate-slide-in">
-            {isOtpSent ? 'Enter OTP' : 'Vitco Impex'}
+            Sign In
           </h2>
           <p className="text-gray-500 mt-2 font-[family-name:var(--font-montserrat-regular)] animate-slide-in">
-            {isOtpSent
-              ? 'We have sent an OTP to your phone number'
-              : 'Enter your phone number to log in'}
+            Enter your email and password to log in
           </p>
         </div>
 
-        {/* Phone Number Input */}
-        {!isOtpSent && (
-          <form onSubmit={handleSendOtp} className="space-y-6 animate-fade-in">
-            <div className="relative">
-              <FaPhone className="absolute left-3 top-4 text-gray-400" />
-              <input
-                type="tel"
-                name="phone"
-                id="phone"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-[family-name:var(--font-montserrat-medium)]"
-                placeholder="Enter your phone number"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full py-3 bg-white text-white rounded-lg hover:bg-white/80 transition duration-300 flex justify-center items-center space-x-2 font-[family-name:var(--font-montserrat-bold)]"
-            >
-              {isLoading ? <FaSpinner className="animate-spin" /> : 'Send OTP'}
-            </button>
-          </form>
-        )}
+        {/* Email and Password Form */}
+        <form onSubmit={handleSignIn} className="space-y-6 animate-fade-in">
+          {/* Email Input */}
+          <div className="relative">
+            <FaEnvelope className="absolute left-3 top-4 text-gray-400" />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-[family-name:var(--font-montserrat-medium)]"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
 
-        {/* OTP Input */}
-        {isOtpSent && (
-          <form onSubmit={handleVerifyOtp} className="space-y-6 flex flex-col items-center animate-fade-in">
-            <InputOTP maxLength={6} onChange={(value) => setOtp(value)} >
-              <InputOTPGroup>
-                <InputOTPSlot index={0} />
-                <InputOTPSlot index={1} />
-              </InputOTPGroup>
-              <InputOTPSeparator/>
-              <InputOTPGroup>
-              <InputOTPSlot index={2} />
-              <InputOTPSlot index={3} />
-              </InputOTPGroup>
-              <InputOTPSeparator />
-              <InputOTPGroup>
-                <InputOTPSlot index={4} />
-                <InputOTPSlot index={5} />
-              </InputOTPGroup>
-            </InputOTP>
-            <button
-              type="submit"
-              className="w-full py-3 bg-white text-white rounded-lg hover:bg-white/70 transition duration-300 flex justify-center items-center space-x-2 font-[family-name:var(--font-montserrat-bold)]"
-            >
-              {isLoading ? <FaSpinner className="animate-spin" /> : 'Verify OTP'}
-            </button>
-          </form>
-        )}
+          {/* Password Input */}
+          <div className="relative">
+            <FaLock className="absolute left-3 top-4 text-gray-400" />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-[family-name:var(--font-montserrat-medium)]"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 flex justify-center items-center space-x-2 font-[family-name:var(--font-montserrat-bold)]"
+          >
+            {isLoading ? <FaSpinner className="animate-spin" /> : 'Sign In'}
+          </button>
+        </form>
 
         {/* Resend OTP Option */}
-        {isOtpSent && !isLoading && (
-          <div className="text-center mt-4 animate-fade-in">
-            <button
-              onClick={() => {
-                setIsOtpSent(false);
-                toast("Resending OTP..."); // Show toast when resending OTP
-              }}
-              className="text-sm text-white hover:underline transition duration-300 font-[family-name:var(--font-montserrat-regular)]"
-            >
-              Didn’t receive OTP? Resend
-            </button>
-          </div>
-        )}
+        <div className="text-center mt-4 animate-fade-in">
+          <button
+            onClick={() => toast("Forgot password?")} // Show toast when clicked
+            className="text-sm text-blue-500 hover:underline transition duration-300 font-[family-name:var(--font-montserrat-regular)]"
+          >
+            Forgot password?
+          </button>
+        </div>
+        <div className="text-center mt-4 animate-fade-in font-[family-name:var(--font-montserrat-regular)]">
+        <p>Don't have an account? <a href="/auth/register">Register</a></p>
       </div>
+      </div>
+
+      {/* register thing  */}
+     
     </div>
   );
 }
